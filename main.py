@@ -19,6 +19,8 @@ class s:
         #return data
         query_text = data.query_text
         page_number = int(data.pg_number)
+        qType = data.qType
+        chosen_tag = data.chose_tag
         items_per_page = 3
         # Load the search results from the backend
         query_res = [[1,2],[3,4], [5,6], [7,8] ,[9, 10], [11,12], [13,14]]
@@ -27,17 +29,25 @@ class s:
         end_page = min(page_number+3, last_page_number) 
         start_item = max(0, (page_number-1)*items_per_page)
         end_item = min(len(query_res), start_item + items_per_page)
-        return render.search_results(query_text, query_res, page_number, start_page, end_page, start_item, end_item, last_page_number)
+        recommended = ["a", "b", "c"]
+        return render.search_results(query_text, query_res, page_number, start_page, end_page, start_item, end_item, last_page_number, qType, recommended)
 
 class question:
     def GET(self):
-        data = web.input()
-        question_id = data.qid
+        #data = web.input()
+        #question_id = data.qid
         
         # get question data
         # title/content/answerlist/
-
-        return render.question_page(...)
+        # suppose answers are list
+        title = "Ask me a question"
+        content = "content"
+        questioner = "AVD"
+        question_date = '12-23-34'
+        answers = ["Answer1", "Answer2"]
+        recommended = ["question1", "question2"] 
+        return render.question_page(title, content, questioner, question_date, answers, recommended)
+        
 class image:
     def GET(self, filename):
         imageBinary = open('./templates/pics/' + filename, 'rb').read()
