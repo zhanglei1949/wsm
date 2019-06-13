@@ -1,9 +1,9 @@
-$def with (title, content, questioner, question_date, answers, recommended)
+$def with (title, url, content, questioner, numviews, question_date, answers, recommended)
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>问题详情</title>
+<title>$title</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="keywords" content="stackoverflow">
@@ -32,7 +32,7 @@ form {
                     <div class="fly-panel detail-box">
                         <h1>$title</h1>
                         <div class="fly-tip fly-detail-hint" data-id="">
-				<span class="fly-tip-stick">置顶帖</span>
+				<span class="fly-tip-stick"></span>
 				<div class="fly-list-hint">
                                     <i class="iconfont" title="回答">&#xe60c;</i> 2 
 		    		</div>
@@ -40,14 +40,15 @@ form {
 					
                         <div class="detail-about">
                             <a class="jie-user" href=""> <img
-                                src="/static/res/images/uer.jpg" alt="头像"> <cite> 压缩
-                                    <em>2017-05-01发布</em> </cite> </a>
+                                src="/static/res/images/uer.jpg" alt="头像"> <cite>questioner
+                                    <em>$(question_date)</em> </cite> </a>
                             <div class="detail-hits" data-id="{{rows.id}}">
-                                <span class="layui-btn layui-btn-mini jie-admin"><a href="#">已完帖，无法编辑</a> </span> 
+                                <span class="layui-btn layui-btn-mini jie-admin"><a href="#">views($numviews)</a> </span> 
                             </div>
                         </div>
                         <div class="detail-body photos" style="margin-bottom: 20px;">
-                            <p>content</p>
+                            <p>$(content)</p>
+                            <p><a href="$url">Original question url</a></p>
 		    	</div>
     		</div>
                 <div class="fly-panel detail-box" style="padding-top: 0;">
@@ -58,18 +59,19 @@ form {
                                 <a name="item-121212121212"></a>
 				<div class="detail-about detail-about-reply">
                                     <a class="jie-user" href=""> <img src="/static/res/images/uer.jpg" alt="">
-                                        <cite> <i>纸飞机</i>
+                                        <cite> <i>User id: $(answer[3])</i>
                                     </cite>
                                     </a>
                                     <div class="detail-hits">
-                                        <span>question_date</span>
+                                        
+                                        <span>Accepted: $(answer[6])</span>
                                     </div>
 				</div>
                                 <div class="detail-body jieda-body">
-                                    <p>么么哒</p>
+                                    <p>$(answer[1])</p>
                                 </div>
                                 <div class="jieda-reply">
-                                    <span class="jieda-zan zanok" type="zan"><i class="iconfont icon-zan"></i><em>12</em>
+                                    <span class="jieda-zan zanok" type="zan"><i class="iconfont icon-zan"></i><em>$(answer[2])</em>
                                     </span> 
 							
                                 </div>
@@ -85,7 +87,7 @@ form {
 				<dt class="fly-panel-title">Recommended Questions</dt>
                                 $for recommend in recommended:
                                     <dd>
-					<a href="">使用 layui 秒搭后台大布局（基本结构）</a> <span><i class="iconfont">&#xe60b;</i> 6087</span>
+					<a href="/question/?qid=$(recommend[0])">$(recommend[2])</a> <span><i class="iconfont">&#xe60b;</i> 6087</span>
 				    </dd>
 				
 			</dl>

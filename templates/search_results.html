@@ -1,4 +1,4 @@
-$def with (query_text, query_res, page_number, start_page, end_page, start_item, end_item, last_page_number, qType, recommended)
+$def with (query_text, query_res, page_number, start_page, end_page, start_item, end_item, last_page_number, qType, recommended, chosen_tag)
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,10 +37,10 @@ form {
                                     <input id="input3" type="hidden" name="pg_number" value = "1">
                                     <br>
                                     <br>
-                                    $if qType == "all":
-                                        <input id="input4" type="radio" name="qType" value="all" checked>
+                                    $if qType == "ALL":
+                                        <input id="input4" type="radio" name="qType" value="ALL" checked>
                                     $else: 
-                                        <input id="input4" type="radio" name="qType" value="all">
+                                        <input id="input4" type="radio" name="qType" value="ALL">
                                     <label for="input4" style="cursor:pointer"> ALL </label>
                                     
                                     $if qType == "tag":
@@ -56,47 +56,38 @@ form {
                                         <option value="excel">Excel</option> 
                                         <option value="Matrix">Matrix</option>
                                     </select>
-                                    $if qType == "question":
-                                        <input id="input6" type="radio" name="qType" value="question" checked>
+                                    $if qType == "QUESTION":
+                                        <input id="input6" type="radio" name="qType" value="QUESTION" checked>
                                     $else:
-                                        <input id="input6" type="radio" name="qType" value="question">
+                                        <input id="input6" type="radio" name="qType" value="QUESTION">
                                     <label for="input6" style="cursor:pointer"> Questions </label>
-                                    $if qType == "answers":
-                                        <input id="input7" type="radio" name="qType" value="answers" checked>
+                                    $if qType == "ANSWER":
+                                        <input id="input7" type="radio" name="qType" value="ANSWER" checked>
                                     $else:
-                                        <input id="input7" type="radio" name="qType" value="answers">
+                                        <input id="input7" type="radio" name="qType" value="ANSWER">
                                     <label for="input7" style="cursor:pointer"> Answers </label>
                                                 
     				</form>
 			    </div>
                     <div class="fly-panel detail-box" style="padding-top: 0;">
                     <a name="comment"></a>
-                    <ul class="jieda photos" id="jieda">
+                    <ul class="fly-list">
                         $for i in range(start_item, end_item):
-                            <li data-id="12" class="jieda-daan">
-                                <a name="item-121212121212"></a>
-				<div class="detail-about detail-about-reply">
-                                    <a class="jie-user" href=""> <img src="/static/res/images/uer.jpg" alt="">
-                                        <cite> <i>纸飞机</i>
-                                    </cite>
+	    			<li class="fly-list-li">
+                                    <a href="../user/home.html" class="fly-list-avatar">
+                                        <img src="/static/res/images/uer.jpg" alt="">
                                     </a>
-                                    <div class="detail-hits">
-                                        <span>question_date</span>
-                                    </div>
-				</div>
-                                <div class="detail-body jieda-body">
-                                    <p>么么哒</p>
-                                </div>
-                                <div class="jieda-reply">
-                                    <span class="jieda-zan zanok" type="zan"><i class="iconfont icon-zan"></i><em>12</em>
-                                    </span> 
-							
-                                </div>
-                            </li>			
-
+	    			<h2 class="fly-tip">
+                                    <a href="/question/?qid=$(query_res[i][0])">$(query_res[i][2])</a>
+                                </h2>
+                                <h4>
+                                </h4>
+                                <h4>
+                                </h4>
+                                </li>		
                     </ul>
+                    </div>
                 </div>
-			</div>
 		</div>
 
 		<div class="edge">
@@ -104,7 +95,7 @@ form {
 				<dt class="fly-panel-title">Recommended Questions</dt>
                                 $for recommend in recommended:
                                     <dd>
-					<a href="">使用 layui 秒搭后台大布局（基本结构）</a> <span><i class="iconfont">&#xe60b;</i> 6087</span>
+					<a href="/question/?qid=$(recommend[0])">$(recommend[2])</a> <span><i class="iconfont">&#xe60b;</i> 630</span>
 				    </dd>
 				
 			</dl>
@@ -121,21 +112,21 @@ form {
                 </div>
                 <div style="text-align: center">
                     <div class="laypage-main">
-                        <a href="/s/?query_text=$(query_text)&pg_number=$(start_page)&qType=$(qType)" class="laypage-last" title="firstpage">First Page</a>
+                        <a href="/s/?query_text=$(query_text)&pg_number=$(start_page)&qType=$(qType)&chosen_tag=$(chosen_tag)" class="laypage-last" title="firstpage">First Page</a>
                         $if page_number != 1:
-                            <a href="/s/?query_text=$(query_text)&pg_number=$(page_number-1)&qType=$(qType)"> << </a> 
+                            <a href="/s/?query_text=$(query_text)&pg_number=$(page_number-1)&qType=$(qType)&chose_tag=&(chosen_tag)"> << </a> 
                         $for i in range(start_page, end_page+1):
                             $if i == page_number:
                                 <span class="laypage-curr">
-                                    <a href="/s/?query_text=$(query_text)&pg_number=$(page_number-1)&qType=$(qType)">$i</a>
+                                    <a href="/s/?query_text=$(query_text)&pg_number=$(page_number-1)&qType=$(qType)&chose_tag=&(chosen_tag)">$i</a>
                                 </span>
                             $else:
-                                <a href="/s/?query_text=$(query_text)&pg_number=$i&qType=$(qType)"> $i</a>
+                                <a href="/s/?query_text=$(query_text)&pg_number=$i&qType=$(qType)&chose_tag=&(chosen_tag)"> $i</a>
 							
 												
                         $if page_number != last_page_number:
-			    <a href="/s/?query_text=$(query_text)&pg_number=$(page_number+1)&qType=$(qType)" class="laypage-next">>></a>
-                        <a href="/s/?query_text=$(query_text)&pg_number=$(last_page_number)&qType=$(qType)" class="laypage-last" title="lastpage">Last Page</a>
+			    <a href="/s/?query_text=$(query_text)&pg_number=$(page_number+1)&qType=$(qType)&chose_tag=&(chosen_tag)" class="laypage-next">>></a>
+                        <a href="/s/?query_text=$(query_text)&pg_number=$(last_page_number)&qType=$(qType)&chose_tag=&(chosen_tag)" class="laypage-last" title="lastpage">Last Page</a>
                     </div>
                 </div>
         </div>
